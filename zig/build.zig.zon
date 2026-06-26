@@ -1,0 +1,21 @@
+.{
+    .fingerprint = 0x164e67245b3996ec,
+    .name = .chat1_zig_client,
+    .version = "0.0.0",
+    .minimum_zig_version = "0.16.0",
+    .dependencies = .{
+        .vaxis = .{
+            .url = "git+https://github.com/rockorager/libvaxis.git#e090d3baecd4b136a3ab95532e4219a3ece81616",
+            .hash = "vaxis-0.6.0-BWNV_EDwCQCjOpS8iRYzYxjh2tTeiOU0KJ8LaWbfYZvG",
+        },
+        .raylib_zig = .{
+            .url = "git+https://github.com/raylib-zig/raylib-zig?ref=devel#97be2c7ae646a2f09856604b138c427c0af1b952",
+            .hash = "raylib_zig-6.0.0-KE8REDJ4BQBu7lKwYNt6R4j5ywPeS37zqW6zrtjCcRwH",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+    },
+}

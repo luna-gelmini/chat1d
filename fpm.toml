@@ -1,0 +1,12 @@
+name = "fortran-chat"
+version = "0.1.0"
+license = "MIT"
+author = "OpenClaude"
+maintainer = "luna"
+copyright = "2026 luna"
+description = "CHAT/1 protocol parser, encoder, and vectors"
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = true

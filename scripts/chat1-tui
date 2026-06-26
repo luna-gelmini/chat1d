@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+BIN="${ROOT}/zig/zig-out/bin/chat1-client"
+
+export CHAT1_FETCH_TEMPLATE="${CHAT1_FETCH_TEMPLATE:-http://127.0.0.1:8090/%s}"
+
+if [[ ! -x "${BIN}" ]]; then
+  make -C "${ROOT}" client
+fi
+
+case "${TERM_PROGRAM:-}${TERM:-}" in
+  *ghostty*|*Ghostty*|*wezterm*|*WezTerm*|*kitty*|*Kitty*) ;;
+  *)
+    printf '%s\n' \
+      'chat1-tui: image previews need Kitty graphics (Kitty, Ghostty, WezTerm).' \
+      '             Text chat works in any terminal. Blob URLs: CHAT1_FETCH_TEMPLATE' \
+      >&2
+    ;;
+esac
+
+usage() {
+  cat <<'EOF'
+Usage: chat1-tui [chat1-client options]
+
+With no args, uses env defaults then starts the Vaxis TUI:
+  CHAT1_HOST (127.0.0.1)  CHAT1_PORT (7000)  CHAT1_NAME ($USER)
+  CHAT1_ROOM (optional)   CHAT1_FETCH_TEMPLATE (http://127.0.0.1:8090/%s)
+
+Ctrl+V paste image (needs wl-paste or xclip). Kitty/Ghostty/WezTerm for previews. Start chat1d:
+  make server && CHAT1_PORT=7000 ./build/bin/chat1d
+
+Build client only: make client
+EOF
+}
+
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  usage
+  exit 0
+fi
+
+if [[ $# -gt 0 ]]; then
+  exec "${BIN}" "$@"
+fi
+
+HOST="${CHAT1_HOST:-127.0.0.1}"
+PORT="${CHAT1_PORT:-7000}"
+NAME="${CHAT1_NAME:-${USER:-zig}}"
+ROOM="${CHAT1_ROOM:-}"
+
+args=(--host "${HOST}" --port "${PORT}" --name "${NAME}")
+if [[ -n "${ROOM}" ]]; then
+  args+=(--room "${ROOM}")
+fi
+exec "${BIN}" "${args[@]}"

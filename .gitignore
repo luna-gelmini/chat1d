@@ -1,0 +1,36 @@
+# Build artifacts
+build/
+*.o
+*.a
+*.so
+*.mod
+*.smod
+
+# Zig
+zig-cache/
+zig-out/
+.zig-cache/
+zig-pkg/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Editor/OS
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+# Executables
+chat1d
+chat1-client
+
+# Logs and blobs
+*.log
+.blob-store/

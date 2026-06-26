@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+BIN="${ROOT}/zig/zig-out/bin/chat1-gui"
+
+export CHAT1_FETCH_TEMPLATE="${CHAT1_FETCH_TEMPLATE:-http://127.0.0.1:8090/%s}"
+
+make -C "${ROOT}" gui
+
+HOST="${CHAT1_HOST:-127.0.0.1}"
+PORT="${CHAT1_PORT:-7000}"
+ROOM="${CHAT1_ROOM:-}"
+
+args=(--host "${HOST}" --port "${PORT}")
+if [[ -n "${CHAT1_NAME:-}" ]]; then
+  args+=(--name "${CHAT1_NAME}")
+fi
+if [[ -n "${ROOM}" ]]; then
+  args+=(--room "${ROOM}")
+fi
+exec "${BIN}" "${args[@]}"
